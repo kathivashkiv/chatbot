@@ -37,7 +37,8 @@ def register_seller(bot, update, user_data):
     seller = user_data.copy()
     seller['seller_id'] = update.message.from_user.id
 
-    f = merchants_col.insert_one(seller)
+    seller['coins'] = 20
+    merchants_col.insert_one(seller)
 
     reply_keyboard=methods.start_keyboard(update)
     update.message.reply_text('Поздравляем, теперь Вы зарегестрированы',
@@ -91,14 +92,12 @@ def input_description(bot, update, user_data):
     user_data['description'] = update.message.text
 
     user_data['photo'] = []
-    #todo change no url caption
     user_data['url'] = ''
     update.message.reply_text('Прикрепите фото или ссылку на ваше предложение:')
     return state_machine.var_photo
 
 def input_photo(bot, update, user_data):
     user_data['photo'].append(update.message.photo)
-    #user_data['photo'] = update.message.photo
     confirm(bot, update, user_data)
     return state_machine.var_confirm
 
