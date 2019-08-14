@@ -158,7 +158,7 @@ def send_answer(bot, update: Update, user_data):
                               reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return state_machine.start
 
-def user_acount(bot, update, user_data):
+def user_account(bot, update, user_data):
     user = merchants_col.find({ 'seller_id' : update.message.from_user.id})
     text = ""
     for doc in list(user):
