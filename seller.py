@@ -157,3 +157,26 @@ def send_answer(bot, update: Update, user_data):
     update.message.reply_text('Ответ отправлен',
                               reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return state_machine.start
+
+def user_acount(bot, update, user_data):
+    user = merchants_col.find({ 'seller_id' : update.message.from_user.id})
+    text = ""
+    for doc in list(user):
+        text += get_city_and_coins(doc)
+   
+    reply_keyboard = methods.start_keyboard(update)
+    update.message.reply_text(text,
+                              reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+    return state_machine.start 
+
+def get_city_and_coins(seller):
+    if (seller['city'] != 'other')  :
+        city = seller['city']
+    else : city = seller['optional_city'] 
+    text = "\nВи зарегестрированы в городе {}".format(city)
+    
+    if 'coins' in seller:
+        coins = seller['coins']
+    else : coins = 0
+    text += "\nНа счету {} монеток\n".format(coins)
+    return text

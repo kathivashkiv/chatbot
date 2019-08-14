@@ -13,8 +13,10 @@ from data import (CATEGORY_1, CATEGORY_2, CITY_1, CITY_2, CITY_3, AMOUNT_1, AMOU
 
 
 def start_keyboard(update):
-    start_keyboard = ['Сдать', 'Снять']
-    merchants_keyboard = ['Поделиться', 'Инфо']
+    func_keyboard = ['Сдать', 'Снять']
+    start_keyboard = ['Поделиться', 'Инфо']
+    merchants_keyboard = ['Кабинет']
+
     user = update.message.from_user
     """
     if merchants_col.find_one({'seller_id':user.id}):
@@ -26,8 +28,10 @@ def start_keyboard(update):
         return keyboard
         """
     keyboard = []
-    keyboard.append(merchants_keyboard)
+    keyboard.append(func_keyboard)
     keyboard.append(start_keyboard)
+    if merchants_col.find_one({'seller_id':user.id}):
+        keyboard.append(merchants_keyboard)
     return keyboard
 
 def get_info(bot, update):
@@ -35,8 +39,6 @@ def get_info(bot, update):
 Этот бот позволяет сдать или снять комнату/квартиру. Чтоб отправить запрос нажмите кнопку "Снять" и
  следуя вопросам бота введите параметры (количество комнат, дату и так далее). Чтобы сдать жилье
  нажмите соответсвенно кнопку "Сдать" и указав город вы зарегистрируетесь и будете получать запросы по
- указаному городу (или по всем городам категории "Другой город")
-
-Сейчас у вас 20 монеток"""
+ указаному городу (или по всем городам категории "Другой город")"""
 
     update.message.reply_text(text)
